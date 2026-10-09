@@ -356,23 +356,43 @@ export const originSources = {
     column: "search",
     home: "https://news.baidu.com",
     sub: {
-      "wenjie-focus": {
-        title: "问界·焦点",
-        keyword: "问界",
+      "qiche-focus": {
+        title: "汽车·焦点",
+        keyword: "汽车",
         type: "hottest",
         interval: Time.Common,
       },
-      "wenjie-latest": {
-        title: "问界·最新",
-        keyword: "问界",
+      "qiche-latest": {
+        title: "汽车·最新",
+        keyword: "汽车",
         type: "realtime",
         interval: Time.Fast,
       },
       "junshi-latest": {
-        title: "军事·最新",
+        title: "军事·焦点",
         keyword: "军事",
-        type: "realtime",
-        interval: Time.Fast,
+        type: "hottest",
+        interval: Time.Common,
+      },
+    },
+  },
+  "qqnews": {
+    name: "腾讯资讯",
+    color: "sky",
+    column: "search",
+    home: "https://news.qq.com",
+    sub: {
+      qiche: {
+        title: "汽车",
+        keyword: "汽车",
+        type: "hottest",
+        interval: Time.Common,
+      },
+      junshi: {
+        title: "军事",
+        keyword: "军事",
+        type: "hottest",
+        interval: Time.Common,
       },
     },
   },

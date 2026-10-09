@@ -442,44 +442,75 @@
     "interval": 600000
   },
   "baidunews": {
-    "redirect": "baidunews-wenjie-focus",
+    "redirect": "baidunews-qiche-focus",
     "name": "百度资讯",
     "type": "hottest",
     "column": "search",
     "home": "https://news.baidu.com",
     "color": "blue",
     "interval": 1800000,
-    "title": "问界·焦点",
-    "keyword": "问界"
+    "title": "汽车·焦点",
+    "keyword": "汽车"
   },
-  "baidunews-wenjie-focus": {
+  "baidunews-qiche-focus": {
     "name": "百度资讯",
     "type": "hottest",
     "column": "search",
     "home": "https://news.baidu.com",
     "color": "blue",
     "interval": 1800000,
-    "title": "问界·焦点",
-    "keyword": "问界"
+    "title": "汽车·焦点",
+    "keyword": "汽车"
   },
-  "baidunews-wenjie-latest": {
+  "baidunews-qiche-latest": {
     "name": "百度资讯",
     "type": "realtime",
     "column": "search",
     "home": "https://news.baidu.com",
     "color": "blue",
     "interval": 300000,
-    "title": "问界·最新",
-    "keyword": "问界"
+    "title": "汽车·最新",
+    "keyword": "汽车"
   },
   "baidunews-junshi-latest": {
     "name": "百度资讯",
-    "type": "realtime",
+    "type": "hottest",
     "column": "search",
     "home": "https://news.baidu.com",
     "color": "blue",
-    "interval": 300000,
-    "title": "军事·最新",
+    "interval": 1800000,
+    "title": "军事·焦点",
+    "keyword": "军事"
+  },
+  "qqnews": {
+    "redirect": "qqnews-qiche",
+    "name": "腾讯资讯",
+    "type": "hottest",
+    "column": "search",
+    "home": "https://news.qq.com",
+    "color": "sky",
+    "interval": 1800000,
+    "title": "汽车",
+    "keyword": "汽车"
+  },
+  "qqnews-qiche": {
+    "name": "腾讯资讯",
+    "type": "hottest",
+    "column": "search",
+    "home": "https://news.qq.com",
+    "color": "sky",
+    "interval": 1800000,
+    "title": "汽车",
+    "keyword": "汽车"
+  },
+  "qqnews-junshi": {
+    "name": "腾讯资讯",
+    "type": "hottest",
+    "column": "search",
+    "home": "https://news.qq.com",
+    "color": "sky",
+    "interval": 1800000,
+    "title": "军事",
     "keyword": "军事"
   },
   "nowcoder": {
