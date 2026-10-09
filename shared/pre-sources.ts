@@ -350,6 +350,32 @@ export const originSources = {
     type: "hottest",
     home: "https://www.baidu.com",
   },
+  "baidunews": {
+    name: "百度资讯",
+    color: "blue",
+    column: "search",
+    home: "https://news.baidu.com",
+    sub: {
+      "wenjie-focus": {
+        title: "问界·焦点",
+        keyword: "问界",
+        type: "hottest",
+        interval: Time.Common,
+      },
+      "wenjie-latest": {
+        title: "问界·最新",
+        keyword: "问界",
+        type: "realtime",
+        interval: Time.Fast,
+      },
+      "junshi-latest": {
+        title: "军事·最新",
+        keyword: "军事",
+        type: "realtime",
+        interval: Time.Fast,
+      },
+    },
+  },
   "linuxdo": {
     name: "LINUX DO",
     column: "tech",

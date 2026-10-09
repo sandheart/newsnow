@@ -77,6 +77,10 @@ export interface Source {
    */
   disable?: boolean | "cf"
   redirect?: SourceID
+  /**
+   * 搜索关键词（用于百度资讯等搜索类数据源）
+   */
+  keyword?: string
 }
 
 export interface Column {

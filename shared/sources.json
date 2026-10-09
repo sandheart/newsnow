@@ -441,6 +441,47 @@
     "color": "blue",
     "interval": 600000
   },
+  "baidunews": {
+    "redirect": "baidunews-wenjie-focus",
+    "name": "百度资讯",
+    "type": "hottest",
+    "column": "search",
+    "home": "https://news.baidu.com",
+    "color": "blue",
+    "interval": 1800000,
+    "title": "问界·焦点",
+    "keyword": "问界"
+  },
+  "baidunews-wenjie-focus": {
+    "name": "百度资讯",
+    "type": "hottest",
+    "column": "search",
+    "home": "https://news.baidu.com",
+    "color": "blue",
+    "interval": 1800000,
+    "title": "问界·焦点",
+    "keyword": "问界"
+  },
+  "baidunews-wenjie-latest": {
+    "name": "百度资讯",
+    "type": "realtime",
+    "column": "search",
+    "home": "https://news.baidu.com",
+    "color": "blue",
+    "interval": 300000,
+    "title": "问界·最新",
+    "keyword": "问界"
+  },
+  "baidunews-junshi-latest": {
+    "name": "百度资讯",
+    "type": "realtime",
+    "column": "search",
+    "home": "https://news.baidu.com",
+    "color": "blue",
+    "interval": 300000,
+    "title": "军事·最新",
+    "keyword": "军事"
+  },
   "nowcoder": {
     "name": "牛客",
     "type": "hottest",

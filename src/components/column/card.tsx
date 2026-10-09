@@ -224,7 +224,8 @@ function ExtraInfo({ item }: { item: NewsItem }) {
 
 function NewsUpdatedTime({ date }: { date: string | number }) {
   const relativeTime = useRelativeTime(date)
-  return <>{relativeTime}</>
+  // 如果无法解析为时间戳（如百度新闻的"4小时前"），直接显示原始字符串
+  return <>{relativeTime ?? date}</>
 }
 function NewsListHot({ items }: { items: NewsItem[] }) {
   const { width } = useWindowSize()
