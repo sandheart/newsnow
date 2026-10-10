@@ -1,6 +1,7 @@
 import type { SourceID, SourceResponse } from "@shared/types"
 import { getters } from "#/getters"
 import { getCacheTable } from "#/database/cache"
+import { getPersistentTable } from "#/database/persistent"
 import type { CacheInfo } from "#/types"
 
 const info = {
@@ -23,6 +24,7 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
     }
 
     const cacheTable = await getCacheTable()
+    const persistentTable = await getPersistentTable()
     // Date.now() in Cloudflare Worker will not update throughout the entire runtime.
     const now = Date.now()
     let cache: CacheInfo | undefined
@@ -69,6 +71,13 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
         if (event.context.waitUntil) event.context.waitUntil(cacheTable.set(id, newData))
         else await cacheTable.set(id, newData)
       }
+
+      // 写入持久存储（增量）
+      if (persistentTable && newData.length) {
+        if (event.context.waitUntil) event.context.waitUntil(persistentTable.saveBatch(id, newData))
+        else await persistentTable.saveBatch(id, newData)
+      }
+
       logger.success(`fetch ${id} latest`)
       return {
         status: "success",

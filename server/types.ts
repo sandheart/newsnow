@@ -63,4 +63,26 @@ export interface SourceOption {
   hiddenDate?: boolean
 }
 
+export interface PersistentRow {
+  source_id: string
+  item_id: string
+  title: string
+  url: string
+  extra: string
+  fetched_at: number
+}
+
+export interface SourceRecord {
+  source_id: string
+  source_name: string
+  title: string | null
+  type: string | null
+  column: string | null
+  interval: number | null
+  home: string | null
+  desc: string | null
+  created_at: number
+  last_fetched_at: number
+}
+
 export type SourceGetter = () => Promise<NewsItem[]>
