@@ -67,14 +67,15 @@ async function fetchBaiduNews(keyword: string, rtt: number): Promise<NewsItem[]>
   const news: NewsItem[] = []
 
   // 核心：查找所有包含 s-data 的新闻条目
-  $(".result-op.c-container[srcid=\"200\"]").each((_, el) => {
+  const elements = $(".result-op.c-container[srcid=\"200\"]").toArray()
+  for (const el of elements) {
     const $el = $(el)
 
     // 提取 <!--s-data:{...}--> JSON
     const htmlContent = $el.html()
     const jsonMatch = htmlContent?.match(/<!--s-data:(\{.*?\})-->/s)
 
-    if (!jsonMatch) return
+    if (!jsonMatch) continue
 
     try {
       const data: BaiduNewsData = JSON.parse(jsonMatch[1])
@@ -84,7 +85,7 @@ async function fetchBaiduNews(keyword: string, rtt: number): Promise<NewsItem[]>
 
       if (cleanTitle && data.titleUrl) {
         news.push({
-          id: data.titleUrl, // 使用 URL 作为 ID
+          id: await md5(data.titleUrl), // 使用 URL 的 MD5 作为 ID
           title: cleanTitle,
           url: data.titleUrl,
           extra: {
@@ -101,7 +102,7 @@ async function fetchBaiduNews(keyword: string, rtt: number): Promise<NewsItem[]>
       // JSON 解析失败，跳过此条目
       logger.warn("百度资讯 JSON 解析失败:", e)
     }
-  })
+  }
 
   return news
 }
