@@ -9,54 +9,117 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as CColumnRouteImport } from './routes/c.$column'
+import { Route as AdminSourcesRouteImport } from './routes/admin.sources'
+import { Route as AdminNewsRouteImport } from './routes/admin.news'
 
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
 } as any)
 const CColumnRoute = CColumnRouteImport.update({
   id: '/c/$column',
   path: '/c/$column',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSourcesRoute = AdminSourcesRouteImport.update({
+  id: '/sources',
+  path: '/sources',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNewsRoute = AdminNewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/admin/news': typeof AdminNewsRoute
+  '/admin/sources': typeof AdminSourcesRoute
   '/c/$column': typeof CColumnRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin/news': typeof AdminNewsRoute
+  '/admin/sources': typeof AdminSourcesRoute
   '/c/$column': typeof CColumnRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/admin/news': typeof AdminNewsRoute
+  '/admin/sources': typeof AdminSourcesRoute
   '/c/$column': typeof CColumnRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/c/$column'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/admin/news'
+    | '/admin/sources'
+    | '/c/$column'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/c/$column'
-  id: '__root__' | '/' | '/c/$column'
+  to: '/' | '/admin/news' | '/admin/sources' | '/c/$column' | '/admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/admin/news'
+    | '/admin/sources'
+    | '/c/$column'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   CColumnRoute: typeof CColumnRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/c/$column': {
       id: '/c/$column'
@@ -65,11 +128,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CColumnRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/sources': {
+      id: '/admin/sources'
+      path: '/sources'
+      fullPath: '/admin/sources'
+      preLoaderRoute: typeof AdminSourcesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/news': {
+      id: '/admin/news'
+      path: '/news'
+      fullPath: '/admin/news'
+      preLoaderRoute: typeof AdminNewsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminNewsRoute: typeof AdminNewsRoute
+  AdminSourcesRoute: typeof AdminSourcesRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminNewsRoute: AdminNewsRoute,
+  AdminSourcesRoute: AdminSourcesRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   CColumnRoute: CColumnRoute,
 }
 export const routeTree = rootRouteImport

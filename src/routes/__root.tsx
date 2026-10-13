@@ -1,6 +1,6 @@
 import "~/styles/globals.css"
 import "virtual:uno.css"
-import { Outlet, createRootRouteWithContext } from "@tanstack/react-router"
+import { Outlet, createRootRouteWithContext, useLocation } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/router-devtools"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import type { QueryClient } from "@tanstack/react-query"
@@ -29,6 +29,23 @@ function RootComponent() {
   useOnReload()
   useSync()
   usePWA()
+  const location = useLocation()
+  const isAdmin = location.pathname.startsWith("/admin")
+
+  if (isAdmin) {
+    return (
+      <>
+        <Outlet />
+        {import.meta.env.DEV && (
+          <>
+            <ReactQueryDevtools buttonPosition="bottom-left" />
+            <TanStackRouterDevtools position="bottom-right" />
+          </>
+        )}
+      </>
+    )
+  }
+
   return (
     <>
       <GlobalOverlayScrollbar

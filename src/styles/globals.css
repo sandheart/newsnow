@@ -56,3 +56,70 @@ button:disabled {
 .grabbing * {
   cursor: grabbing;
 }
+
+/* Fix Ant Design button styles affected by UnoCSS reset */
+.ant-btn,
+.ant-btn * {
+  cursor: pointer !important;
+  user-select: none;
+}
+
+.ant-btn-primary {
+  background-color: #1677ff !important;
+  color: white !important;
+}
+
+.ant-btn-primary:hover {
+  background-color: #4096ff !important;
+}
+
+.ant-btn-default:hover {
+  color: #4096ff !important;
+  border-color: #4096ff !important;
+}
+
+.ant-input, .ant-select, .ant-picker {
+  cursor: text;
+  user-select: text;
+}
+
+/* Enable text selection in admin tables */
+.admin-page,
+.admin-page *,
+.ant-table,
+.ant-table *,
+.ant-card,
+.ant-card * {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+}
+
+.admin-page .ant-table-cell,
+.ant-table-cell,
+.ant-table-cell * {
+  cursor: text !important;
+}
+
+.admin-page .ant-table-cell .ant-btn,
+.admin-page .ant-table-cell .ant-btn * {
+  cursor: pointer !important;
+}
+
+.admin-page a {
+  cursor: pointer !important;
+}
+
+.admin-page a:hover {
+  text-decoration: underline;
+}
+
+.admin-page .ant-btn-link {
+  color: #1677ff !important;
+  cursor: pointer !important;
+}
+
+.admin-page .ant-btn-link:hover {
+  color: #4096ff !important;
+  text-decoration: none;
+}

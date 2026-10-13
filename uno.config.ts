@@ -4,6 +4,7 @@ import { sources } from "./shared/sources"
 
 export default defineConfig({
   mergeSelectors: false,
+  blocklist: [/^ant-/],
   transformers: [transformerDirectives(), transformerVariantGroup()],
   presets: [
     presetWind3(),
