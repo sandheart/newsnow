@@ -1,8 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
-import { Button, Card, Form, Input, Select, Space, Table, Tag } from "antd"
-import { ReloadOutlined, SearchOutlined } from "@ant-design/icons"
+import { Button, Card, Form, Input, Select, Space, Table, Tag, Tooltip } from "antd"
+import { ReloadOutlined, SearchOutlined, StarFilled, StarOutlined } from "@ant-design/icons"
 import type { ColumnsType } from "antd/es/table"
 import { useQuery } from "@tanstack/react-query"
+import type { SourceID } from "@shared/types"
+import { useFocus } from "~/hooks/useFocus"
 
 export const Route = createFileRoute("/admin/sources")({
   component: SourcesPage,
@@ -12,6 +14,7 @@ export const Route = createFileRoute("/admin/sources")({
     title: (search.title as string) || "",
     type: (search.type as string) || "",
     column: (search.column as string) || "",
+    focused: (search.focused as string) || "",
   }),
 })
 
@@ -47,6 +50,7 @@ function SourcesPage() {
   const [form] = Form.useForm()
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
+  const { toggleFocus, isFocused } = useFocus()
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "sources", search],
@@ -75,6 +79,13 @@ function SourcesPage() {
   const handleViewNews = (sourceId: string) => {
     window.open(`/admin/news?source_id=${sourceId}`, "_blank")
   }
+
+  const filteredData = useMemo(() => {
+    if (!data) return data
+    if (!search.focused) return data
+    const wantFocused = search.focused === "yes"
+    return data.filter(item => isFocused(item.source_id as SourceID) === wantFocused)
+  }, [data, search.focused, isFocused])
 
   const columns: ColumnsType<SourceRecord> = [
     {
@@ -130,6 +141,24 @@ function SourcesPage() {
       render: (v: number | null) => formatTime(v),
     },
     {
+      title: "是否关注",
+      key: "focused",
+      width: 80,
+      render: (_, record) => {
+        const focused = isFocused(record.source_id as SourceID)
+        return (
+          <Tooltip title={focused ? "取消关注" : "添加关注"}>
+            <Button
+              type="text"
+              size="small"
+              icon={focused ? <StarFilled style={{ color: "#faad14" }} /> : <StarOutlined />}
+              onClick={() => toggleFocus(record.source_id as SourceID)}
+            />
+          </Tooltip>
+        )
+      },
+    },
+    {
       title: "操作",
       key: "action",
       width: 120,
@@ -164,6 +193,12 @@ function SourcesPage() {
           <Form.Item name="column" label="栏目">
             <Input placeholder="精确匹配" allowClear style={{ width: 120 }} />
           </Form.Item>
+          <Form.Item name="focused" label="是否关注">
+            <Select allowClear style={{ width: 120 }} placeholder="选择状态">
+              <Select.Option value="yes">已关注</Select.Option>
+              <Select.Option value="no">未关注</Select.Option>
+            </Select>
+          </Form.Item>
           <Form.Item>
             <Space>
               <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>
@@ -179,10 +214,10 @@ function SourcesPage() {
 
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={filteredData}
         loading={isLoading}
         rowKey="source_id"
-        scroll={{ x: 1100 }}
+        scroll={{ x: 1180 }}
         size="small"
         pagination={{
           current: currentPage,
